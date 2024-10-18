@@ -10,6 +10,7 @@ To install dependencies:
 ```sh
 yarn
 ```
+To run dev server for app packages
 ```sh
 yarn dev
 ```
