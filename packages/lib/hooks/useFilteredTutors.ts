@@ -1,45 +1,56 @@
 import { useMemo } from "react";
-import { FilterParams } from "../types/filter.types";
-import {  TutorType } from "../types/tutor.types";
+import { TutorType } from "../types/tutor.types";
+import { AppContextType, useAppContext } from "./useAppContext";
 
-export function useFilteredTutors(data: TutorType[], filterParams: FilterParams) {
+export function useFilteredTutors(
+  tutors: TutorType[],
+  {
+    activeFilters,
+    searchTerm,
+  }: { activeFilters: AppContextType["activeFilters"]; searchTerm: string }
+) {
   return useMemo(() => {
-    return data.filter((tutor) => {
-      const matchesAttributes = filterParams.attributes
-        ? filterParams.attributes.every((attr) =>
-            tutor.attributes.includes(attr)
-          )
+    return tutors.filter((tutor) => {
+      const matchesSearchTerm = searchTerm
+        ? tutor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          tutor.bio.toLowerCase().includes(searchTerm.toLowerCase())
         : true;
 
-      const matchesSearchValue = filterParams.searchValue
-        ? tutor.name
-            .toLowerCase()
-            .includes(filterParams.searchValue.toLowerCase())
-        : true;
+      const matchesFilters = activeFilters.every((filter) => {
 
-      const matchesIsVerified =
-        filterParams.isVerified !== undefined
-          ? tutor.isVerified === filterParams.isVerified
-          : true;
+        console.log(filter);
+        
+        switch (filter) {
+          case "verified":
+            return tutor.isVerified;
+          case "male":
+            return tutor.gender === "male";
+          case "female":
+            return tutor.gender === "female";
+          case "kidsExpert":
+            return tutor.isKidsExpert;
+          case "fiveStars":
+            return tutor.rating === 5.0;
+          case "experience":
+            return tutor.experience >= 3;
+          case "science":
+            return tutor.attributes.includes("science");
+          case "art":
+            return tutor.attributes.includes("art");
+          case "maths":
+            return tutor.attributes.includes("maths");
+          case "physics":
+            return tutor.attributes.includes("physics");
+          case "english":
+            return tutor.attributes.includes("english");
+          default:
+            return true;
+        }
+      });
 
-      const matchesIsKidsExpert =
-        filterParams.isKidsExpert !== undefined
-          ? tutor.isKidsExpert === filterParams.isKidsExpert
-          : true;
-
-      const matchesGender = filterParams.gender
-        ? tutor.gender.toLowerCase() === filterParams.gender.toLowerCase()
-        : true;
-
-      return (
-        matchesAttributes &&
-        matchesSearchValue &&
-        matchesIsVerified &&
-        matchesIsKidsExpert &&
-        matchesGender
-      );
+      return matchesSearchTerm && matchesFilters;
     });
-  }, [data, filterParams]);
-};
+  }, [tutors, activeFilters, searchTerm]);
+}
 
 export default useFilteredTutors;

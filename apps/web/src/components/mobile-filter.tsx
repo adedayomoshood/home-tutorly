@@ -9,10 +9,10 @@ export default function MobileFilter() {
   return (
     <section
       className={cn(
-        "flex flex-1 [&>*]:w-full md:hidden transition-all",
+        "flex [&>*]:w-full md:hidden",
         isOpenFilter
-          ? "max-h-[500px] pb-4"
-          : "max-h-0 overflow-hidden"
+          ? "max-h-[500px] opacity-100 pb-4 transition-all"
+          : "max-h-0 opacity-0 overflow-hidden transition-none"
       )}
     >
       <Filter />

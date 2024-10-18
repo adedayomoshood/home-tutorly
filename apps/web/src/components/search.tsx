@@ -4,20 +4,27 @@ import FilterIcon from "@/icons/filter";
 import SearchIcon from "@/icons/search";
 import cn from "@/utils/cn";
 import { useAppContext } from "@repo/lib/hooks/useAppContext";
-import { useState } from "react";
+import { useDebounce } from "@repo/lib/hooks/useDebounce";
+import { useEffect, useState } from "react";
 
 export default function Search() {
-  const { handleFilter, filter, onToggleFilter, isOpenFilter } = useAppContext();
-  const [searchValue, setSearchValue] = useState("");
+  const { searchTerm, setSearchTerm, onToggleFilter, isOpenFilter } =
+    useAppContext();
+  const [formValue, setFormValue] = useState("");
+  const debouncedFormValue = useDebounce<string>(formValue, 300);
 
-  const handleSearch = () => {
-    handleFilter({
-      searchValue,
-    });
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSearchTerm(formValue);
   };
 
+  useEffect(() => {
+    setSearchTerm(debouncedFormValue);
+  }, [debouncedFormValue]);
+
   return (
-    <section className="flex gap-2 mb-4">
+    <form className="flex gap-2 mb-4" onSubmit={handleSearch}>
       <button
         onClick={onToggleFilter}
         className={cn(
@@ -28,21 +35,21 @@ export default function Search() {
         <FilterIcon width={24} height={24} />
       </button>
 
-      <section className="flex flex-1 gap-2 p-3 pl-8 bg-white rounded-xl">
+      <section className="flex flex-1 gap-2 p-2 md:p-3 pl-4 md:pl-8 bg-white rounded-xl">
         <input
-          defaultValue={filter.searchValue}
-          className="flex-1 bg-transparent h-9 outline-none placeholder:text-gray-900"
+          defaultValue={searchTerm}
+          className="flex-1 bg-transparent h-8 md:h-9 outline-none placeholder:text-gray-900"
           placeholder="Search tutors"
-          onChange={(e) => {
-            setSearchValue(e.target.value);
-            handleSearch();
-          }}
+          onChange={(e) => setFormValue(e.target.value)}
         />
 
-        <button className="bg-primary-500 text-white h-9 w-9 flex items-center justify-center rounded-lg">
+        <button
+          type="submit"
+          className="bg-primary-500 text-white h-8 md:h-9 aspect-square flex items-center justify-center rounded-lg"
+        >
           <SearchIcon />
         </button>
       </section>
-    </section>
+    </form>
   );
 }

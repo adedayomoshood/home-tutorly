@@ -1,14 +1,23 @@
 import { useDisclosure } from "./useDisclosure";
-import React, { createContext, useContext, useState, ReactNode } from "react";
-import { FilterParams } from "../types/filter.types";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useCallback,
+} from "react";
 
 export type AppContextType = {
-  filter: FilterParams;
-  isOpenFilter: boolean;
-  onOpenFilter: () => void;
-  onCloseFilter: () => void;
+  searchTerm: string;
+  activeFilters: string[];
+  setSearchTerm: (term: string) => void;
+  toggleFilter: (filterId: string) => void;
+  removeFilter: (filterId: string) => void;
+  clearAllFilters: () => void;
   onToggleFilter: () => void;
-  handleFilter: (params?: FilterParams) => void;
+  onCloseFilter: () => void;
+  onOpenFilter: () => void;
+  isOpenFilter: boolean;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -24,7 +33,33 @@ export const useAppContext = (): AppContextType => {
 export const AppProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [filter, setFilter] = useState<FilterParams>({});
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const toggleFilter = useCallback((filterId: string) => {
+    setActiveFilters((prev) => {
+      if (filterId === "male" || filterId === "female") {
+        const withoutGender = prev.filter(
+          (id) => id !== "male" && id !== "female"
+        );
+        return prev.includes(filterId)
+          ? withoutGender
+          : [...withoutGender, filterId];
+      } else {
+        return prev.includes(filterId)
+          ? prev.filter((id) => id !== filterId)
+          : [...prev, filterId];
+      }
+    });
+  }, []);
+
+  const removeFilter = useCallback((filterId: string) => {
+    setActiveFilters((prev) => prev.filter((id) => id !== filterId));
+  }, []);
+
+  const clearAllFilters = useCallback(() => {
+    setActiveFilters([]);
+  }, []);
 
   const {
     isOpen: isOpenFilter,
@@ -33,25 +68,18 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
     onToggle: onToggleFilter,
   } = useDisclosure();
 
-  const handleFilter = (newFilters?: FilterParams) => {
-    setFilter((prevParams) => ({
-      ...prevParams,
-      ...newFilters,
-    }));
+  const value: AppContextType = {
+    searchTerm,
+    activeFilters,
+    setSearchTerm,
+    toggleFilter,
+    removeFilter,
+    isOpenFilter,
+    onOpenFilter,
+    onCloseFilter,
+    onToggleFilter,
+    clearAllFilters,
   };
 
-  return (
-    <AppContext.Provider
-      value={{
-        filter,
-        handleFilter,
-        isOpenFilter,
-        onOpenFilter,
-        onCloseFilter,
-        onToggleFilter,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

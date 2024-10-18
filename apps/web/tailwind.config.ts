@@ -29,6 +29,7 @@ const config: Config = {
           500: "#E900D2",
         },
         yellow: {
+          300: "#FFE500",
           500: "#FFA800",
         },
       },
