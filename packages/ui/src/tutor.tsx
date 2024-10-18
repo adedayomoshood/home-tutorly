@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderRadius: 12,
     ...(Platform.OS !== "web" && {
-      height: 176,
+      height: 230,
     }),
     ...(Platform.OS === "web" && {
       aspectRatio: 230 / 245,

@@ -8,6 +8,7 @@ export type TutorType = {
   avatarUrl: string;
   isVerified: boolean;
   isKidsExpert: boolean;
+  isFiveStar?: boolean;
   gender: ObjectValues<typeof GenderAttributes>;
   attributes: string[];
 };

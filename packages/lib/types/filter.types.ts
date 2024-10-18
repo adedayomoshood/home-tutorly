@@ -3,5 +3,6 @@ export type FilterParams = {
   searchValue?: string;
   isVerified?: boolean;
   isKidsExpert?: boolean;
-  gender?: "male" | "female" | "other";
+  isFiveStar?: boolean;
+  gender?: "male" | "female" | null;
 };

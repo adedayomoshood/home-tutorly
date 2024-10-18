@@ -32,7 +32,7 @@ export default function AppHomeScreen() {
                   source={{ uri: tutor.avatarUrl }}
                   style={styles.tutorImage}
                   contentFit="cover"
-                  contentPosition="top center"
+                  contentPosition="center"
                 />
               </Tutor>
             </View>

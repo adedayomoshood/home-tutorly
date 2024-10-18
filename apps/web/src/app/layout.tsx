@@ -1,9 +1,8 @@
+import Header from "@/components/header";
+import Provider from "@/components/provider";
 import type { Metadata } from "next";
 import { IBM_Plex_Sans_Thai, Wix_Madefor_Display } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/header";
-import Provider from "@/components/provider";
-import Image from "next/image";
 
 const wixDisplay = Wix_Madefor_Display({
   subsets: ["latin"],
@@ -39,8 +38,6 @@ export default function RootLayout({
         <Provider>
           <section className="container pt-4 md:pt-8 pb-20 selection:bg-primary-500/25">
             <Header />
-
-            <Image src="/images/image-2.png" alt="" width={400} height={400} />
 
             {children}
           </section>

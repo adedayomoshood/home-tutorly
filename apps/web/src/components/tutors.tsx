@@ -14,6 +14,12 @@ export default function Tutors({ tutors }: { tutors: TutorType[] }) {
       {filteredTutors.map((tutor) => (
         <Tutor tutor={tutor} key={tutor.id} />
       ))}
+
+      {filteredTutors.length === 0 && (
+        <p className="text-gray-900 text-center col-span-full">
+          No tutors found
+        </p>
+      )}
     </main>
   );
 }

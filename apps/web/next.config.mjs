@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'portfolio.moshood.dev',
+        hostname: 'tutorly.moshood.dev',
         port: '',
         pathname: '/**',
       },
