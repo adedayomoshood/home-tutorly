@@ -43,6 +43,8 @@ export default function CurrentFilters() {
                 <StarIcon className="w-4 h-4 fill-yellow-400" />
               )}
               <button
+                type="button"
+                aria-label={`delete ${filter.label}`}
                 onClick={() => removeFilter(filterId)}
                 className="ml-0.5 group text-gray-300"
               >

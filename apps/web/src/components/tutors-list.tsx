@@ -5,7 +5,7 @@ import Tutor from "./tutor";
 import useFilteredTutors from "@repo/lib/hooks/useFilteredTutors";
 import { TutorType } from "@repo/lib/types/tutor.types";
 
-export default function Tutors({ tutors }: { tutors: TutorType[] }) {
+export default function TutorsList({ tutors }: { tutors: TutorType[] }) {
   const { activeFilters, searchTerm } = useAppContext();
 
   const filteredTutors = useFilteredTutors(tutors, {

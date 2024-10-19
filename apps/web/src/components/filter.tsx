@@ -14,15 +14,17 @@ export default function Filter() {
     <aside>
       <section className="md:w-64 p-8 flex-col bg-white rounded-xl sticky top-8">
         <section className="flex justify-between items-center mb-6">
-          <h3 className="font-extrabold">Filter</h3>
-          
+          <p className="font-extrabold">Filter</p>
+
           <FilterIcon className="hidden md:flex" />
         </section>
 
         <section className="flex flex-wrap gap-2">
           {filterOptions.map((option) => (
             <button
+              type="button"
               key={option.id}
+              aria-label={`filter by ${option.label}`}
               onClick={() => toggleFilter(option.id)}
               className={cn(
                 "flex items-center gap-1 font-bold px-4 py-1.5 rounded-full text-xs leading-4",

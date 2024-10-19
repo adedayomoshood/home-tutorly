@@ -17,9 +17,6 @@ export function useFilteredTutors(
         : true;
 
       const matchesFilters = activeFilters.every((filter) => {
-
-        console.log(filter);
-        
         switch (filter) {
           case "verified":
             return tutor.isVerified;

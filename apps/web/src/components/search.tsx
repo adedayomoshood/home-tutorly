@@ -21,11 +21,13 @@ export default function Search() {
 
   useEffect(() => {
     setSearchTerm(debouncedFormValue);
-  }, [debouncedFormValue]);
+  }, [debouncedFormValue, setSearchTerm]);
 
   return (
     <form className="flex gap-2 mb-4" onSubmit={handleSearch}>
       <button
+        type="button"
+        aria-label={`${isOpenFilter ? "Open" : "Close"} filter`}
         onClick={onToggleFilter}
         className={cn(
           "transition-all flex md:hidden h-full rounded-lg bg-white items-center justify-center aspect-square",
@@ -44,6 +46,7 @@ export default function Search() {
         />
 
         <button
+          aria-label="search"
           type="submit"
           className="bg-primary-500 text-white h-8 md:h-9 aspect-square flex items-center justify-center rounded-lg"
         >

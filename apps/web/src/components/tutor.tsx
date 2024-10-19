@@ -42,9 +42,9 @@ export default function Tutor({ tutor }: { tutor: TutorType }) {
           />
         </section>
 
-        <h3 className="font-extrabold transition-all ease-in group-focus/tutor:text-primary-500 group-hover/tutor:text-primary-500">
+        <p className="font-extrabold transition-all ease-in group-focus/tutor:text-primary-500 group-hover/tutor:text-primary-500">
           {tutor.name}
-        </h3>
+        </p>
 
         <p className="font-ibm font-light text-sm leading-relaxed">
           {tutor.bio}
