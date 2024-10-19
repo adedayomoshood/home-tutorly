@@ -3,7 +3,7 @@ import { useFonts } from "expo-font";
 import { SplashScreen, Tabs } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import TabBar from "../components/tab-bar";
 
 export default function RootLayout() {
@@ -27,7 +27,7 @@ export default function RootLayout() {
 
   return (
     <AppProvider>
-      <View style={styles.container}>
+      <View className="flex-1">
         <Tabs tabBar={(props) => <TabBar {...props} />}>
           <Tabs.Screen
             name="index"
@@ -36,7 +36,7 @@ export default function RootLayout() {
 
           <Tabs.Screen
             name="rate"
-            options={{ title: "Rate", headerShown: false }}
+            options={{ title: "Rate Screen", headerShown: false }}
           />
 
           <Tabs.Screen
@@ -55,10 +55,3 @@ export default function RootLayout() {
     </AppProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F6F6F6",
-  },
-});

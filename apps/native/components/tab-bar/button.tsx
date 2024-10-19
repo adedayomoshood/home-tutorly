@@ -1,11 +1,6 @@
 import React, { ReactNode } from "react";
-import {
-  Pressable,
-  PressableProps,
-  Text,
-  View,
-  StyleSheet,
-} from "react-native";
+import { Pressable, PressableProps, Text, View } from "react-native";
+import Animated, { LinearTransition } from "react-native-reanimated";
 import HomeIcon from "./icons/home";
 import MoreIcon from "./icons/more";
 import RateIcon from "./icons/rate";
@@ -37,48 +32,32 @@ export default function TabBarButton({
   onLongPress,
 }: TabBarButtonProps) {
   return (
-    <Pressable
-      onLongPress={onLongPress}
-      onPress={onPress}
-      style={[
-        styles.button,
-        isFocused ? styles.focusedButton : styles.defaultButton,
-      ]}
+    <Animated.View
+      layout={LinearTransition}
+      className={`rounded-lg ${isFocused ? "bg-gray-100 text-gray-900 flex-grow-0" : "flex-1"}`}
     >
-      <View>
-        {icons[routeName as IconKeys]({
-          isActive: isFocused,
-        })}
-      </View>
+      <Pressable
+        className="flex-1 px-4"
+        onLongPress={onLongPress}
+        onPress={onPress}
+      >
+        <Animated.View
+          layout={LinearTransition}
+          className={`flex-1 flex-row items-center overflow-hidden justify-center`}
+        >
+          <View>
+            {icons[routeName as IconKeys]({
+              isActive: isFocused,
+            })}
+          </View>
 
-      {isFocused && (
-        <Text style={styles.focusedText} numberOfLines={1}>
-          {typeof label === "string" ? label : String(label)}
-        </Text>
-      )}
-    </Pressable>
+          <Text
+            className={`text-xs font-wix-bold font-bold ml-2 ${isFocused ? "auto" : "w-0"}`}
+          >
+            {typeof label === "string" ? label : String(label)}
+          </Text>
+        </Animated.View>
+      </Pressable>
+    </Animated.View>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    paddingHorizontal: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 8,
-  },
-  focusedButton: {
-    backgroundColor: "#F9F9F9",
-    color: "#121212",
-    flexGrow: 0,
-  },
-  defaultButton: {
-    flex: 1,
-  },
-  focusedText: {
-    fontSize: 12,
-    fontWeight: "bold",
-    marginLeft: 8,
-  },
-});

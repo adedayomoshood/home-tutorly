@@ -1,36 +1,41 @@
 import { tutors } from "@repo/lib/data/tutors";
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
-import TopBar from "../components/top-bar";
-import { Tutor } from "@repo/ui";
-import { Image } from "expo-image";
-import { useState } from "react";
 import { useAppContext } from "@repo/lib/hooks/useAppContext";
 import { useFilteredTutors } from "@repo/lib/hooks/useFilteredTutors";
+import { Tutor } from "@repo/ui";
+import { Image } from "expo-image";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import TopBar from "../components/top-bar";
+import CurrentFilters from "../components/current-filters";
+import Filter from "../components/filter";
+import Animated, { LinearTransition } from "react-native-reanimated";
 
 export default function AppHomeScreen() {
+  const { activeFilters, searchTerm } = useAppContext();
 
-  const { isOpenFilter, filter } = useAppContext();
-
-  const filteredTutors = useFilteredTutors(tutors, filter);
+  const filteredTutors = useFilteredTutors(tutors, {
+    activeFilters,
+    searchTerm,
+  });
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
-      <ScrollView style={styles.scrollView}>
+    <SafeAreaView className="flex-1 bg-gray-100">
+      <ScrollView className="pb-32 px-5">
         <TopBar />
 
-        {filter && (
-          <View>
-            <Text>Filter</Text>
-          </View>
-        )}
+        <CurrentFilters />
 
-        <View style={styles.tutorWrapper}>
+        <Filter />
+
+        <Animated.View
+          layout={LinearTransition}
+          className="p-4 bg-white rounded-xl mb-24"
+        >
           {filteredTutors.map((tutor) => (
-            <View key={tutor.id} style={styles.tutor}>
+            <View key={tutor.id} className="mb-4">
               <Tutor tutor={tutor}>
                 <Image
                   source={{ uri: tutor.avatarUrl }}
-                  style={styles.tutorImage}
+                  className="w-full h-full bg-gray-100"
                   contentFit="cover"
                   contentPosition="center"
                 />
@@ -39,48 +44,12 @@ export default function AppHomeScreen() {
           ))}
 
           {filteredTutors.length === 0 && (
-            <View>
-              <Text style={styles.errorMessage}>No tutors found</Text>
+            <View className="p-3 bg-red-100 rounded-lg">
+              <Text className="text-red-600">No tutors found</Text>
             </View>
           )}
-        </View>
+        </Animated.View>
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safeAreaContainer: {
-    flex: 1,
-    backgroundColor: "#F6F6F6",
-  },
-  scrollView: {
-    paddingHorizontal: 20,
-    paddingBottom: 128,
-  },
-  tutorWrapper: {
-    padding: 16,
-    marginBottom: 96,
-    borderRadius: 16,
-    backgroundColor: "#fff",
-  },
-  tutor: {
-    marginBottom: 20,
-  },
-  tutorImage: {
-    height: "100%",
-    width: "100%",
-  },
-  errorMessage: {
-    textAlign: "center",
-    fontSize: 16,
-    padding: 8,
-    backgroundColor: "#FFB4B4",
-    marginBottom: 200,
-  },
-  filterWrapper: {
-    backgroundColor: "#ffffff",
-
-  }
-  
-});

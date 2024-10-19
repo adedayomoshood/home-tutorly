@@ -11,8 +11,8 @@ export default function TabBar({
   navigation,
 }: BottomTabBarProps) {
   return (
-    <View style={styles.container}>
-      <View style={styles.tabBar}>
+    <View className="absolute w-full bottom-0 pb-6 px-5">
+      <View className="flex-row p-4 bg-white h-20 rounded-3xl shadow-xl justify-stretch">
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const label =
@@ -60,27 +60,3 @@ export default function TabBar({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    width: "100%",
-    flex: 1,
-    bottom: 0,
-    paddingBottom: 24,
-    paddingHorizontal: 20,
-  },
-  tabBar: {
-    flexDirection: "row",
-    padding: 16,
-    backgroundColor: "#ffffff",
-    height: 80,
-    borderRadius: 24,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3.84,
-    elevation: 5,
-    justifyContent: "space-between",
-  },
-});

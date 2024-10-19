@@ -2,19 +2,10 @@ import { View, Text, StyleSheet } from "react-native";
 
 export default function RateScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Rate Screen</Text>
+    <View className="flex-1 justify-center items-center bg-orange-100">
+      <Text className="text-orange-700 font-wix-extrabold text-2xl">
+        Rate Screen
+      </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 32,
-  },
-});

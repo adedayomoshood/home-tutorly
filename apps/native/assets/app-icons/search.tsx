@@ -1,9 +1,14 @@
-import React from "react";
 import Svg, { SvgProps, Path } from "react-native-svg";
 
 export function SearchIcon({ ...props }: SvgProps) {
   return (
-    <Svg width={24} height={24} viewBox="0 0 24 24" {...props} fill="none" stroke="currentColor">
+    <Svg
+      viewBox="0 0 24 24"
+      className="h-6 w-6"
+      {...props}
+      fill="none"
+      stroke="currentColor"
+    >
       <Path
         strokeLinecap="round"
         strokeLinejoin="round"
